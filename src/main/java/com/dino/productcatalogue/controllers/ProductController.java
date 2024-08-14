@@ -8,11 +8,13 @@ import com.dino.productcatalogue.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
@@ -22,7 +24,7 @@ public class ProductController {
     public String welcomePage(){
         return "Welcome to Springboot";
     }
-    @GetMapping("/product/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Long id) throws IllegalAccessException {
         // call service layer with this id
         if(id<=0){
@@ -33,9 +35,27 @@ public class ProductController {
         ProductDto productDto = convertToProductDto(product);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
+    @GetMapping()
+    public List<ProductDto> getAllProduct(){
+        List<ProductDto> products = new ArrayList<>();
+        List<Product> productList = productService.getAllProduct();
+        for(Product product : productList){
+            products.add(convertToProductDto(product));
+        }
+        return products;
+    }
+    @PutMapping("{id}")
+    public ProductDto replaceProduct(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
+        ResponseEntity<Product> product = productService.replaceProduct(productDto,id);
+        if(product.getStatusCode().is2xxSuccessful() && product.getBody()!=null){
+            return convertToProductDto(product.getBody());
+        }
+        return null;
+    }
 
     private ProductDto convertToProductDto(Product product) {
         ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
         productDto.setTitle(product.getTitle());
         //productDto.setCategory(product.getCategory());
         productDto.setPrice(product.getPrice());
