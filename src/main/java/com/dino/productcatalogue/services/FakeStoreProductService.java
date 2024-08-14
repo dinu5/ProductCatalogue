@@ -39,17 +39,6 @@ public class FakeStoreProductService implements IProductService{
         return null;
     }
 
-
-    private Product convertToProduct(FakeStoreProductDto fakeStoreProductDto) {
-        Product product = new Product();
-        product.setId(fakeStoreProductDto.getId());
-        product.setTitle(fakeStoreProductDto.getTitle());
-        product.setDescription(fakeStoreProductDto.getDescription());
-        product.setPrice(fakeStoreProductDto.getPrice());
-        //product.setCategory(fakeStoreProductDto.getCategory());
-        return product;
-    }
-
     @Override
     public List<Product> getAllProduct() {
         RestTemplate restTemplate = restTemplateBuilder.build();
@@ -76,5 +65,15 @@ public class FakeStoreProductService implements IProductService{
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
         return restTemplate.execute(url, HttpMethod.POST, requestCallback, responseExtractor, uriVariables);
+    }
+
+    private Product convertToProduct(FakeStoreProductDto fakeStoreProductDto) {
+        Product product = new Product();
+        product.setId(fakeStoreProductDto.getId());
+        product.setTitle(fakeStoreProductDto.getTitle());
+        product.setDescription(fakeStoreProductDto.getDescription());
+        product.setPrice(fakeStoreProductDto.getPrice());
+        //product.setCategory(fakeStoreProductDto.getCategory());
+        return product;
     }
 }

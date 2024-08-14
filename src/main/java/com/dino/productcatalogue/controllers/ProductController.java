@@ -31,7 +31,9 @@ public class ProductController {
             throw new IllegalAccessException("id not found");
         }
         Product product = productService.getProductById(id);
-        if(product == null) {}
+        if(product == null) {
+            throw new IllegalAccessException("product not found");
+        }
         ProductDto productDto = convertToProductDto(product);
         return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
