@@ -12,5 +12,5 @@ public interface IProductService {
     public Product getProductById(Long id);
     public List<Product> getAllProduct();
 
-    public ResponseEntity<Product> replaceProduct(ProductDto productDto, Long id);
+    public ResponseEntity<Product> replaceProduct(Product product, Long id);
 }

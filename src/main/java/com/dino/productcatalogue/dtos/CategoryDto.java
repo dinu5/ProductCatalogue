@@ -1,15 +1,12 @@
 package com.dino.productcatalogue.dtos;
 
-import jdk.jfr.Category;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class ProductDto {
+@Getter
+public class CategoryDto {
     private Long id;
-    private String title;
+    private String name;
     private String description;
-    private CategoryDto category;
-    private Double price;
 }

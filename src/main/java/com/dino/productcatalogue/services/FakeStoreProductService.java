@@ -51,10 +51,11 @@ public class FakeStoreProductService implements IProductService{
     }
 
     @Override
-    public ResponseEntity<Product> replaceProduct(ProductDto productDto, Long id) {
-        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = requestForEntity("http://fakestoreapi.com/products/{id}", productDto,FakeStoreProductDto.class,id);
-        if(fakeStoreProductDto.getStatusCode().is2xxSuccessful()){
-            return new ResponseEntity<>(convertToProduct(fakeStoreProductDto.getBody()),HttpStatus.OK);
+    public ResponseEntity<Product> replaceProduct(Product product, Long id) {
+        FakeStoreProductDto fakeStoreProductDto = convertToFakeStoreProductDto(product);
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDtoResponseEntity = requestForEntity("http://fakestoreapi.com/products/{id}", fakeStoreProductDto,FakeStoreProductDto.class,id);
+        if(fakeStoreProductDtoResponseEntity.getStatusCode().is2xxSuccessful()){
+            return new ResponseEntity<>(convertToProduct(fakeStoreProductDtoResponseEntity.getBody()),HttpStatus.OK);
         }
         return null;
     }
@@ -74,5 +75,13 @@ public class FakeStoreProductService implements IProductService{
         product.setPrice(fakeStoreProductDto.getPrice());
         //product.setCategory(fakeStoreProductDto.getCategory());
         return product;
+    }
+    private FakeStoreProductDto convertToFakeStoreProductDto(Product product) {
+        FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
+        fakeStoreProductDto.setId(product.getId());
+        fakeStoreProductDto.setTitle(product.getTitle());
+        fakeStoreProductDto.setDescription(product.getDescription());
+        fakeStoreProductDto.setPrice(product.getPrice());
+        return fakeStoreProductDto;
     }
 }
