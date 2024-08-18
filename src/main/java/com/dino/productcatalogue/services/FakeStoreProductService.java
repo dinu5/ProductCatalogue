@@ -52,8 +52,7 @@ public class FakeStoreProductService implements IProductService{
 
     @Override
     public ResponseEntity<Product> replaceProduct(ProductDto productDto, Long id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = requestForEntity("http://fakestoreapi.com/products/{id}",productDto,FakeStoreProductDto.class,id);
+        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = requestForEntity("http://fakestoreapi.com/products/{id}", productDto,FakeStoreProductDto.class,id);
         if(fakeStoreProductDto.getStatusCode().is2xxSuccessful()){
             return new ResponseEntity<>(convertToProduct(fakeStoreProductDto.getBody()),HttpStatus.OK);
         }
@@ -64,7 +63,7 @@ public class FakeStoreProductService implements IProductService{
         RestTemplate restTemplate = restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
-        return restTemplate.execute(url, HttpMethod.POST, requestCallback, responseExtractor, uriVariables);
+        return restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor, uriVariables);
     }
 
     private Product convertToProduct(FakeStoreProductDto fakeStoreProductDto) {
