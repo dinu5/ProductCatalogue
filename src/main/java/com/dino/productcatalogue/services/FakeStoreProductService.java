@@ -3,6 +3,7 @@ package com.dino.productcatalogue.services;
 import com.dino.productcatalogue.clients.FakeStoreProductClient;
 import com.dino.productcatalogue.dtos.FakeStoreProductDto;
 import com.dino.productcatalogue.dtos.ProductDto;
+import com.dino.productcatalogue.models.Category;
 import com.dino.productcatalogue.models.Product;
 import jdk.jfr.RecordingState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,12 @@ public class FakeStoreProductService implements IProductService{
         product.setTitle(fakeStoreProductDto.getTitle());
         product.setDescription(fakeStoreProductDto.getDescription());
         product.setPrice(fakeStoreProductDto.getPrice());
-        //product.setCategory(fakeStoreProductDto.getCategory());
+        if(fakeStoreProductDto.getCategory()!=null) {
+            Category category = new Category();
+            category.setName(fakeStoreProductDto.getCategory());
+            category.setDescription(fakeStoreProductDto.getCategory());
+            product.setCategory(category);
+        }
         return product;
     }
     private FakeStoreProductDto convertToFakeStoreProductDto(Product product) {

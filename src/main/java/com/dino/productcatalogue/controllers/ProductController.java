@@ -71,11 +71,12 @@ public class ProductController {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
         productDto.setTitle(product.getTitle());
-//        if(product.getCategory()!=null){
-//            CategoryDto categoryDto = new CategoryDto();
-//            categoryDto.setName(product.getCategory().getName());
-//            categoryDto.setDescription(product.getCategory().getDescrption());
-//        }
+        if(product.getCategory()!=null){
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setName(product.getCategory().getName());
+            categoryDto.setDescription(product.getCategory().getDescription());
+            productDto.setCategory(categoryDto);
+        }
         productDto.setPrice(product.getPrice());
         productDto.setDescription(product.getDescription());
         return productDto;
