@@ -32,6 +32,11 @@ public class FakeStoreProductService implements IProductService{
     private RestTemplateBuilder restTemplateBuilder;
 
     @Override
+    public Product createProduct(Product product) {
+        return null;
+    }
+
+    @Override
     public Product getProductById(Long id) {
         ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = fakeStoreProductClient.getProductById(id);
         if(fakeStoreProductDto.getStatusCode().is2xxSuccessful() && fakeStoreProductDto.getBody()!=null){
@@ -71,7 +76,7 @@ public class FakeStoreProductService implements IProductService{
     private Product convertToProduct(FakeStoreProductDto fakeStoreProductDto) {
         Product product = new Product();
         product.setId(fakeStoreProductDto.getId());
-        product.setTitle(fakeStoreProductDto.getTitle());
+        product.setDescription(fakeStoreProductDto.getTitle());
         product.setDescription(fakeStoreProductDto.getDescription());
         product.setPrice(fakeStoreProductDto.getPrice());
         if(fakeStoreProductDto.getCategory()!=null) {
@@ -85,7 +90,7 @@ public class FakeStoreProductService implements IProductService{
     private FakeStoreProductDto convertToFakeStoreProductDto(Product product) {
         FakeStoreProductDto fakeStoreProductDto = new FakeStoreProductDto();
         fakeStoreProductDto.setId(product.getId());
-        fakeStoreProductDto.setTitle(product.getTitle());
+        fakeStoreProductDto.setTitle(product.getDescription());
         fakeStoreProductDto.setDescription(product.getDescription());
         fakeStoreProductDto.setPrice(product.getPrice());
         return fakeStoreProductDto;
